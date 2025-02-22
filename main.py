@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Depends, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 import models
 from database import engine, SessionLocal
@@ -19,6 +20,14 @@ app = FastAPI(
         "email": "aderomourice7@gmail.com",
     },
     license_info={"name": "MTech Solutions"},
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
 )
 
 models.Base.metadata.create_all(bind=engine)
